@@ -83,6 +83,11 @@ export function SettingsPopover({ onClose }: SettingsPopoverProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !importOpen) onClose() }
     const handleClick = (e: MouseEvent) => {
+      // ImportModal is rendered as a SIBLING of this popover, not a child, so every
+      // click inside it counts as "outside" and would close the popover - which
+      // unmounts the modal mid-interaction. The Escape handler above already guards
+      // on importOpen; this one has to as well.
+      if (importOpen) return
       if (ref.current && !ref.current.contains(e.target as Node)) onClose()
     }
     window.addEventListener('keydown', handleKey)
