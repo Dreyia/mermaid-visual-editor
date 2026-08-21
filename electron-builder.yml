@@ -25,6 +25,10 @@ nodeGypRebuild: false
 
 win:
   icon: build/icon.ico
+  # Applies to the zip target; nsis and portable set their own below. The zip is a
+  # plain archive of the unpacked app - unzip anywhere and run the .exe inside,
+  # for machines where an installer or a single 100 MB exe is awkward.
+  artifactName: MermaidVisualEditor-${version}-win-${arch}.${ext}
   target:
     - target: nsis
       arch: [x64]
@@ -44,9 +48,3 @@ nsis:
 
 portable:
   artifactName: MermaidVisualEditor-${version}-portable.${ext}
-
-# Plain archive of the unpacked app - unzip anywhere and run the .exe inside.
-# Useful where an installer or a single 100 MB exe is awkward (locked-down
-# machines, shared drives, scripted deploys).
-zip:
-  artifactName: MermaidVisualEditor-${version}-win-x64.zip
