@@ -1,5 +1,11 @@
 # Mermaid Visual Editor
 
+> **This is a fork.** The editor itself — the canvas, the parser, the serializer, the
+> whole idea — is the work of **[Saket Kattuboina](https://github.com/saketkattu)**:
+> [saketkattu/mermaid-visual-editor](https://github.com/saketkattu/mermaid-visual-editor) (MIT).
+> This fork adds an Electron desktop wrapper and a flat light/dark theme on top.
+> See [DESKTOP.md](DESKTOP.md) and [Credits](#credits).
+
 A visual drag-and-drop editor for [Mermaid.js](https://mermaid.js.org) flowcharts. Build diagrams visually — export clean `.mmd` syntax.
 
 No account. No cloud. Runs locally.
@@ -233,6 +239,55 @@ See [SECURITY.md](SECURITY.md) for the vulnerability disclosure policy.
 
 ---
 
+## Desktop app (this fork)
+
+A standalone Windows desktop build — same editor, no browser, no localhost server.
+
+**[Download the latest release](https://github.com/Dreyia/mermaid-visual-editor/releases/latest)**
+— portable `.exe` (no install) or an NSIS installer.
+
+Build it yourself:
+
+```bash
+pnpm install
+pnpm desktop   # next build && electron .
+pnpm dist      # next build && electron-builder --win  -> dist/
+```
+
+The wrapper serves the Next.js static export over a custom `app://` scheme rather than
+spawning a localhost server, so it runs fully offline with no open port. Full notes,
+design rationale, and a manual test checklist are in **[DESKTOP.md](DESKTOP.md)**.
+
+The desktop build also replaces the original neumorphic styling with a flat, minimal
+theme that has light and dark palettes (Settings → Appearance → System / Light / Dark).
+
+---
+
+## Credits
+
+**Mermaid Visual Editor** was created by **[Saket Kattuboina](https://github.com/saketkattu)**
+and is released under the MIT License. Everything that makes this a diagram editor —
+the React Flow canvas, the Mermaid parser and serializer, the inspector, the command
+palette — is his work. Upstream lives at
+[saketkattu/mermaid-visual-editor](https://github.com/saketkattu/mermaid-visual-editor);
+the hosted demo is at
+[mermaid-visual-editor-delta.vercel.app](https://mermaid-visual-editor-delta.vercel.app/).
+
+This fork ([Dreyia/mermaid-visual-editor](https://github.com/Dreyia/mermaid-visual-editor))
+adds only:
+
+- `electron/` — the desktop shell and its `app://` static-file protocol
+- `electron-builder.yml`, `build/icon.ico` — Windows packaging
+- `lib/theme.ts`, `components/ThemeToggle.tsx` — light/dark preference
+- a token-based restyle of `app/globals.css` and the existing components
+
+Built with [Mermaid.js](https://mermaid.js.org), [React Flow](https://reactflow.dev),
+[Next.js](https://nextjs.org), [Zustand](https://zustand.docs.pmnd.rs), and
+[Electron](https://www.electronjs.org).
+
+---
+
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE). Copyright remains with the Mermaid Visual Editor
+contributors; this fork adds to it under the same terms.
