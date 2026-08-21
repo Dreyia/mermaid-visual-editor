@@ -30,6 +30,8 @@ win:
       arch: [x64]
     - target: portable
       arch: [x64]
+    - target: zip
+      arch: [x64]
 
 nsis:
   oneClick: false
@@ -42,3 +44,9 @@ nsis:
 
 portable:
   artifactName: MermaidVisualEditor-${version}-portable.${ext}
+
+# Plain archive of the unpacked app - unzip anywhere and run the .exe inside.
+# Useful where an installer or a single 100 MB exe is awkward (locked-down
+# machines, shared drives, scripted deploys).
+zip:
+  artifactName: MermaidVisualEditor-${version}-win-x64.zip
