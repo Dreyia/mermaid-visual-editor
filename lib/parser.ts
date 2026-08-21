@@ -249,8 +249,11 @@ function matchConnector(str: string): ConnectorMatch | null {
     const m = str.match(c.pattern)
     if (m) {
       const rest = str.slice(m[0].length)
-      // Check for |label| or |"label"| after connector
-      const labelMatch = rest.match(/^\|"?([^"|]*)"?\|(.*)$/)
+      // Check for |label| or |"label"| after connector.
+      // Mermaid allows whitespace before the pipe (`A --> |text| B`), and without
+      // the \s* the whole edge - and any node only introduced on its right-hand
+      // side - was silently dropped from the import.
+      const labelMatch = rest.match(/^\s*\|"?([^"|]*)"?\|(.*)$/)
       if (labelMatch) {
         return { edgeStyle: c.edgeStyle, arrowType: c.arrowType, label: labelMatch[1], rest: labelMatch[2] }
       }
