@@ -6,6 +6,7 @@ import { useFlowStore } from '@/lib/store'
 import { serialize } from '@/lib/serializer'
 import { downloadMmd, saveDiagramJson, loadDiagramJson } from '@/lib/fileio'
 import { ImportModal } from '@/components/ImportModal'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 interface SettingsPopoverProps {
   onClose: () => void
@@ -16,7 +17,7 @@ const NEU_BG = 'var(--neu-bg)'
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 16 }}>
-      <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+      <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
         {title}
       </div>
       {children}
@@ -45,12 +46,12 @@ function NeuBtn({
       style={{
         background: NEU_BG,
         border: 'none',
-        borderRadius: 10,
+        borderRadius: 6,
         boxShadow: active ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
         padding: '6px 12px',
         fontSize: 12,
         fontWeight: 500,
-        color: active ? '#4F46E5' : '#6B7280',
+        color: active ? 'var(--accent)' : 'var(--text-2)',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.4 : 1,
         transition: 'box-shadow 0.15s',
@@ -142,7 +143,7 @@ export function SettingsPopover({ onClose }: SettingsPopoverProps) {
           top: 'calc(100% + 8px)',
           right: 0,
           background: NEU_BG,
-          borderRadius: 20,
+          borderRadius: 10,
           boxShadow: 'var(--neu-shadow-raised)',
           padding: '20px',
           zIndex: 50,
@@ -160,6 +161,11 @@ export function SettingsPopover({ onClose }: SettingsPopoverProps) {
             <NeuBtn onClick={handleDownloadMmd} disabled={nodesLength === 0} title="Download .mmd">Download .mmd</NeuBtn>
             <NeuBtn onClick={handleExportSvg} disabled={nodesLength === 0} title="Export as SVG">Export SVG</NeuBtn>
           </div>
+        </Section>
+
+        {/* Appearance */}
+        <Section title="Appearance">
+          <ThemeToggle />
         </Section>
 
         {/* Objects */}

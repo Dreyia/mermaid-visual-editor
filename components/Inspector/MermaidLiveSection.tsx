@@ -35,7 +35,7 @@ function DiagramView({ syntax, containerRef }: { syntax: string; containerRef: R
 
   if (error) {
     return (
-      <div style={{ fontSize: 10, color: '#ef4444', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
+      <div style={{ fontSize: 10, color: 'var(--danger)', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
         {error}
       </div>
     )
@@ -65,7 +65,7 @@ function ExpandModal({ syntax, onClose }: { syntax: string; onClose: () => void 
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.4)',
+        background: 'var(--scrim)',
         backdropFilter: 'blur(6px)',
         zIndex: 300,
         display: 'flex',
@@ -88,20 +88,20 @@ function ExpandModal({ syntax, onClose }: { syntax: string; onClose: () => void 
         }}
       >
         {/* Modal header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px', borderBottom: '1px solid rgba(163,177,198,0.3)', flexShrink: 0 }}>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#374151' }}>Mermaid Preview</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px', borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
+          <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)' }}>Mermaid Preview</span>
           <div style={{ display: 'flex', gap: 8 }}>
             <button
               onClick={handleCopy}
               style={{
                 background: NEU_BG,
                 border: 'none',
-                borderRadius: 10,
+                borderRadius: 6,
                 boxShadow: copied ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
                 padding: '7px 14px',
                 fontSize: 12,
                 fontWeight: 500,
-                color: copied ? '#4F46E5' : '#6B7280',
+                color: copied ? 'var(--accent)' : 'var(--text-2)',
                 cursor: 'pointer',
                 transition: 'box-shadow 0.15s',
               }}
@@ -113,7 +113,7 @@ function ExpandModal({ syntax, onClose }: { syntax: string; onClose: () => void 
               style={{
                 background: NEU_BG,
                 border: 'none',
-                borderRadius: 10,
+                borderRadius: 6,
                 boxShadow: 'var(--neu-shadow-raised)',
                 width: 34,
                 height: 34,
@@ -121,7 +121,7 @@ function ExpandModal({ syntax, onClose }: { syntax: string; onClose: () => void 
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                color: '#9ca3af',
+                color: 'var(--text-3)',
                 fontSize: 18,
               }}
             >
@@ -139,7 +139,7 @@ function ExpandModal({ syntax, onClose }: { syntax: string; onClose: () => void 
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: NEU_BG,
+            background: 'var(--paper)',
           }}
         >
           <DiagramView syntax={syntax} containerRef={modalContainerRef} />
@@ -148,14 +148,14 @@ function ExpandModal({ syntax, onClose }: { syntax: string; onClose: () => void 
         {/* Syntax block */}
         <div
           style={{
-            background: '#1E2130',
+            background: 'var(--code-bg)',
             padding: '14px 20px',
             maxHeight: 140,
             overflow: 'auto',
             flexShrink: 0,
           }}
         >
-          <pre style={{ margin: 0, fontSize: 11, color: '#86efac', fontFamily: 'monospace', whiteSpace: 'pre', lineHeight: 1.6 }}>
+          <pre style={{ margin: 0, fontSize: 11, color: 'var(--code-fg)', fontFamily: 'monospace', whiteSpace: 'pre', lineHeight: 1.6 }}>
             {syntax || '— empty —'}
           </pre>
         </div>
@@ -189,7 +189,7 @@ export function MermaidLiveSection({ syntax }: MermaidLiveSectionProps) {
       <div>
         {/* Section header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', flex: 1 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-3)', letterSpacing: '0.08em', textTransform: 'uppercase', flex: 1 }}>
             Mermaid Live
           </span>
 
@@ -200,7 +200,7 @@ export function MermaidLiveSection({ syntax }: MermaidLiveSectionProps) {
             style={{
               background: NEU_BG,
               border: 'none',
-              borderRadius: 8,
+              borderRadius: 6,
               boxShadow: 'var(--neu-shadow-raised)',
               width: 28,
               height: 28,
@@ -208,7 +208,7 @@ export function MermaidLiveSection({ syntax }: MermaidLiveSectionProps) {
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              color: '#6B7280',
+              color: 'var(--text-2)',
               transition: 'box-shadow 0.15s',
             }}
           >
@@ -226,12 +226,12 @@ export function MermaidLiveSection({ syntax }: MermaidLiveSectionProps) {
             style={{
               background: NEU_BG,
               border: 'none',
-              borderRadius: 8,
+              borderRadius: 6,
               boxShadow: copied ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
               padding: '4px 10px',
               fontSize: 11,
               fontWeight: 500,
-              color: copied ? '#4F46E5' : '#6B7280',
+              color: copied ? 'var(--accent)' : 'var(--text-2)',
               cursor: 'pointer',
               transition: 'box-shadow 0.15s',
               whiteSpace: 'nowrap',
@@ -244,8 +244,8 @@ export function MermaidLiveSection({ syntax }: MermaidLiveSectionProps) {
         {/* Inline preview */}
         <div
           style={{
-            background: NEU_BG,
-            borderRadius: 14,
+            background: 'var(--paper)',
+            borderRadius: 8,
             boxShadow: 'var(--neu-shadow-concave)',
             padding: 12,
             minHeight: 80,
@@ -265,15 +265,17 @@ export function MermaidLiveSection({ syntax }: MermaidLiveSectionProps) {
         {/* Syntax dark card */}
         <div
           style={{
-            background: '#1E2130',
-            borderRadius: 14,
-            boxShadow: 'var(--neu-shadow-inset)',
+            background: 'var(--code-bg)',
+            borderRadius: 8,
+            // A code well, not a pressed control - `inset` now carries an accent
+            // tint, so use the neutral hairline instead.
+            boxShadow: 'var(--neu-shadow-concave)',
             padding: '12px 14px',
             maxHeight: 140,
             overflow: 'auto',
           }}
         >
-          <pre style={{ margin: 0, fontSize: 10, color: '#86efac', fontFamily: 'monospace', whiteSpace: 'pre', lineHeight: 1.6 }}>
+          <pre style={{ margin: 0, fontSize: 10, color: 'var(--code-fg)', fontFamily: 'monospace', whiteSpace: 'pre', lineHeight: 1.6 }}>
             {syntax || '— empty —'}
           </pre>
         </div>

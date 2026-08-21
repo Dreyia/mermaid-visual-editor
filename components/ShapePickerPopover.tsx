@@ -63,14 +63,14 @@ export function ShapePickerPopover({ onClose }: ShapePickerPopoverProps) {
         left: '50%',
         transform: 'translateX(-50%)',
         background: NEU_BG,
-        borderRadius: 20,
+        borderRadius: 10,
         boxShadow: 'var(--neu-shadow-raised)',
         padding: '16px',
         zIndex: 50,
         minWidth: 320,
       }}
     >
-      <div style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.08em', marginBottom: 10, textTransform: 'uppercase' }}>
+      <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-3)', letterSpacing: '0.08em', marginBottom: 10, textTransform: 'uppercase' }}>
         {hasNodeSelection ? 'Change Shape' : 'Draw Shape'}
       </div>
       {rows.map((row, ri) => (
@@ -88,7 +88,7 @@ export function ShapePickerPopover({ onClose }: ShapePickerPopoverProps) {
                 style={{
                   width: 36,
                   height: 32,
-                  borderRadius: 10,
+                  borderRadius: 6,
                   border: 'none',
                   background: NEU_BG,
                   boxShadow: isActive ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
@@ -97,17 +97,17 @@ export function ShapePickerPopover({ onClose }: ShapePickerPopoverProps) {
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'box-shadow 0.15s',
-                  color: isActive ? '#4F46E5' : '#6b7280',
+                  color: isActive ? 'var(--accent)' : 'var(--text-2)',
                 }}
               >
-                <ShapeIcon shape={shape} stroke={isActive ? '#4F46E5' : '#6b7280'} />
+                <ShapeIcon shape={shape} stroke={isActive ? 'var(--accent)' : 'var(--text-2)'} />
               </button>
             )
           })}
         </div>
       ))}
       {!hasNodeSelection && drawingShape && (
-        <div style={{ marginTop: 10, fontSize: 11, color: '#4F46E5', textAlign: 'center' }}>
+        <div style={{ marginTop: 10, fontSize: 11, color: 'var(--accent)', textAlign: 'center' }}>
           Click &amp; drag on canvas to draw — Esc to cancel
         </div>
       )}

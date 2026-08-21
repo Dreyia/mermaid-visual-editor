@@ -2,7 +2,7 @@
 
 import type { NodeShape, Direction, Theme, CurveStyle } from '@/lib/store'
 
-export function ShapeIcon({ shape, stroke = '#6b7280', fill = 'white' }: { shape: NodeShape; stroke?: string; fill?: string }) {
+export function ShapeIcon({ shape, stroke = 'var(--text-2)', fill = 'var(--surface)' }: { shape: NodeShape; stroke?: string; fill?: string }) {
   const sw = 1.5
   switch (shape) {
     case 'rectangle':

@@ -52,10 +52,10 @@ export function ImportModal({ onClose }: ImportModalProps) {
 
   const statusText = () => {
     if (!value.trim()) return null
-    if (!result) return <span className="text-gray-400">Parsing…</span>
-    if (result.error) return <span className="text-red-500">{result.error}</span>
+    if (!result) return <span style={{ color: 'var(--text-3)' }}>Parsing…</span>
+    if (result.error) return <span style={{ color: 'var(--danger)' }}>{result.error}</span>
     return (
-      <span className="text-emerald-600">
+      <span style={{ color: 'var(--success)' }}>
         {result.nodes.length} node{result.nodes.length !== 1 ? 's' : ''},&nbsp;
         {result.edges.length} edge{result.edges.length !== 1 ? 's' : ''} detected
       </span>
@@ -64,11 +64,13 @@ export function ImportModal({ onClose }: ImportModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm pointer-events-auto"
+      className="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-sm pointer-events-auto"
+      style={{ background: 'var(--scrim)' }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-[580px] max-h-[85vh] flex flex-col border border-gray-200/60"
+        className="rounded-xl w-[580px] max-h-[85vh] flex flex-col"
+        style={{ background: 'var(--surface)', boxShadow: 'inset 0 0 0 1px var(--border), var(--shadow-float)' }}
         role="dialog"
         aria-labelledby="import-modal-title"
         aria-describedby="import-modal-desc"
@@ -76,14 +78,14 @@ export function ImportModal({ onClose }: ImportModalProps) {
       >
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+        <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <div>
-            <h2 id="import-modal-title" className="text-sm font-semibold text-gray-900">Import Mermaid Syntax</h2>
-            <p id="import-modal-desc" className="text-xs text-gray-400 mt-0.5">Paste a flowchart definition to load it onto the canvas</p>
+            <h2 id="import-modal-title" className="text-sm font-semibold" style={{ color: 'var(--text-1)' }}>Import Mermaid Syntax</h2>
+            <p id="import-modal-desc" className="text-xs mt-0.5" style={{ color: 'var(--text-3)' }}>Paste a flowchart definition to load it onto the canvas</p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="transition-colors p-1 rounded-md" style={{ color: 'var(--text-3)' }}
             aria-label="Close"
           >
             ✕
@@ -96,7 +98,8 @@ export function ImportModal({ onClose }: ImportModalProps) {
             ref={textareaRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="flex-1 w-full font-mono text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded-lg p-3 resize-none outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 w-full font-mono text-xs rounded-md p-3 resize-none outline-none"
+            style={{ color: 'var(--text-1)', background: 'var(--surface-2)', boxShadow: 'inset 0 0 0 1px var(--border)' }}
             placeholder={`flowchart TD\n  A["Start"] --> B{"Decision?"}\n  B --> |"Yes"| C["Do it"]\n  B --> |"No"| D["Skip"]`}
             spellCheck={false}
             rows={14}
@@ -106,17 +109,18 @@ export function ImportModal({ onClose }: ImportModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2 px-5 py-4 border-t border-gray-100 bg-gray-50/60 rounded-b-2xl">
+        <div className="flex items-center justify-end gap-2 px-5 py-4 border-t rounded-b-xl" style={{ borderColor: 'var(--border)', background: 'var(--surface-2)' }}>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="px-4 py-1.5 text-xs font-medium rounded-md transition-colors" style={{ color: 'var(--text-2)' }}
           >
             Cancel
           </button>
           <button
             onClick={handleImport}
             disabled={!canImport}
-            className="px-4 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="px-4 py-1.5 text-xs font-medium rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ background: 'var(--accent)', color: 'var(--accent-contrast)' }}
           >
             Import to Canvas
           </button>

@@ -27,7 +27,7 @@ function ZoomBtn({
       style={{
         background: NEU_BG,
         border: 'none',
-        borderRadius: 10,
+        borderRadius: 6,
         boxShadow: 'var(--neu-shadow-raised)',
         width: 32,
         height: 32,
@@ -36,7 +36,7 @@ function ZoomBtn({
         justifyContent: 'center',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.4 : 1,
-        color: '#6B7280',
+        color: 'var(--text-2)',
         fontSize: 16,
         fontWeight: 500,
         transition: 'box-shadow 0.15s',
@@ -94,7 +94,7 @@ export function ZoomControls() {
         alignItems: 'center',
         gap: 4,
         background: NEU_BG,
-        borderRadius: 50,
+        borderRadius: 999,
         boxShadow: 'var(--neu-shadow-raised)',
         padding: '6px 10px',
         pointerEvents: 'auto',
@@ -108,7 +108,7 @@ export function ZoomControls() {
         <IconRedo />
       </ZoomBtn>
 
-      <div style={{ width: 1, height: 16, background: 'rgba(163,177,198,0.4)', margin: '0 2px', flexShrink: 0 }} />
+      <div style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 2px', flexShrink: 0 }} />
 
       <ZoomBtn onClick={handleZoomOut} title="Zoom out">−</ZoomBtn>
 
@@ -118,12 +118,12 @@ export function ZoomControls() {
         style={{
           background: NEU_BG,
           border: 'none',
-          borderRadius: 8,
+          borderRadius: 6,
           boxShadow: 'var(--neu-shadow-concave)',
           padding: '4px 10px',
           fontSize: 11,
           fontWeight: 600,
-          color: '#6B7280',
+          color: 'var(--text-2)',
           cursor: 'pointer',
           minWidth: 44,
           textAlign: 'center',

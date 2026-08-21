@@ -20,10 +20,10 @@ export function LayerStackSection() {
   if (nodes.length === 0) {
     return (
       <div>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
           Layers
         </div>
-        <div style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', padding: '12px 0' }}>
+        <div style={{ fontSize: 12, color: 'var(--text-3)', textAlign: 'center', padding: '12px 0' }}>
           No nodes yet
         </div>
       </div>
@@ -32,7 +32,7 @@ export function LayerStackSection() {
 
   return (
     <div>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
         Layers ({nodes.length})
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 200, overflowY: 'auto' }}>
@@ -47,7 +47,7 @@ export function LayerStackSection() {
               style={{
                 background: NEU_BG,
                 border: 'none',
-                borderRadius: 10,
+                borderRadius: 6,
                 boxShadow: isSelected ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-soft)',
                 padding: '8px 12px',
                 display: 'flex',
@@ -62,10 +62,10 @@ export function LayerStackSection() {
               <span style={{ fontSize: 12, opacity: 0.5 }}>
                 {isSubgraph ? '⬡' : '□'}
               </span>
-              <span style={{ fontSize: 12, color: isSelected ? '#4F46E5' : '#374151', fontWeight: isSelected ? 600 : 400, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 12, color: isSelected ? 'var(--accent)' : 'var(--text-1)', fontWeight: isSelected ? 600 : 400, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {node.data.label || node.id}
               </span>
-              <span style={{ fontSize: 10, color: '#9ca3af', flexShrink: 0 }}>
+              <span style={{ fontSize: 10, color: 'var(--text-3)', flexShrink: 0 }}>
                 {node.data.shape ?? 'rect'}
               </span>
             </button>

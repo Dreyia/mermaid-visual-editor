@@ -1,32 +1,195 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Theme system
+   ---------------------------------------------------------------------------
+   The original design was neumorphic: a single grey field (#E0E5EC) with
+   embossed light/dark shadows on every control. This replaces it with a flat,
+   minimal system built on semantic tokens, and adds a dark palette.
+
+   The legacy `--neu-*` variables are KEPT (and re-pointed at the new tokens)
+   because ~40 inline styles across components reference them directly, e.g.
+   `boxShadow: 'var(--neu-shadow-raised)'`. Re-pointing them means every
+   component picks up the new look with no component-level shadow edits.
+
+   Theme resolution: a blocking script in app/layout.tsx sets
+   `data-theme="light" | "dark"` on <html> before first paint (resolving
+   "system" via prefers-color-scheme), so the CSS below only ever has to look
+   at the attribute. That also makes Tailwind's `dark:` variant — redefined
+   below — agree with the tokens.
+--------------------------------------------------------------------------- */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #fafafa;          /* app / canvas field */
+  --surface: #ffffff;     /* panels, toolbars, buttons */
+  --surface-2: #f4f4f5;   /* inputs, code, subtle wells */
+  --border: #e4e4e7;      /* hairlines — replaces every embossed edge */
+  --border-strong: #d4d4d8;
+
+  --text-1: #18181b;      /* primary */
+  --text-2: #52525b;      /* secondary / control labels */
+  --text-3: #a1a1aa;      /* tertiary / captions */
+
+  --accent: #4f46e5;
+  --accent-contrast: #ffffff;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+
+  --danger: #dc2626;
+  --success: #059669;
+
+  --code-bg: #f4f4f5;
+  --code-fg: #3f3f46;
+
+  --dot: #e4e4e7;               /* react-flow background dots */
+  --paper: #ffffff;             /* diagram viewing surface — see note below */
+  --scrim: rgba(24, 24, 27, 0.28);
+  --shadow-float: 0 1px 2px rgba(24, 24, 27, 0.04), 0 4px 16px rgba(24, 24, 27, 0.06);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0e0e10;
+  --surface: #17171a;
+  --surface-2: #1f1f23;
+  --border: #2a2a2f;
+  --border-strong: #3a3a41;
+
+  --text-1: #f4f4f5;
+  --text-2: #a1a1aa;
+  --text-3: #71717a;
+
+  --accent: #818cf8;
+  --accent-contrast: #10101a;
+  --accent-soft: rgba(129, 140, 248, 0.14);
+
+  --danger: #f87171;
+  --success: #34d399;
+
+  --code-bg: #1c1c21;
+  --code-fg: #d4d4d8;
+
+  --dot: #27272c;
+  --paper: #ffffff;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.5), 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Fallback for the split second before the layout script runs, and for any
+   context where JS is unavailable. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e0e10;
+    --surface: #17171a;
+    --surface-2: #1f1f23;
+    --border: #2a2a2f;
+    --border-strong: #3a3a41;
+    --text-1: #f4f4f5;
+    --text-2: #a1a1aa;
+    --text-3: #71717a;
+    --accent: #818cf8;
+    --accent-contrast: #10101a;
+    --accent-soft: rgba(129, 140, 248, 0.14);
+    --danger: #f87171;
+    --success: #34d399;
+    --code-bg: #1c1c21;
+    --code-fg: #d4d4d8;
+    --dot: #27272c;
+    --paper: #ffffff;
+    --scrim: rgba(0, 0, 0, 0.55);
+    --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.5), 0 4px 18px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* --paper stays white in BOTH themes on purpose: the rendered Mermaid SVG uses
+   whatever theme the diagram itself declares (Diagram Settings -> Theme, which
+   is serialised into the .mmd). Tinting the viewing surface with the app theme
+   would make the preview stop matching the exported file. */
+
+/* --- Legacy neumorphic aliases, now flat -----------------------------------
+   `raised`  = resting control / floating panel  -> hairline + faint lift
+   `inset`   = pressed / active control          -> accent ring + accent tint
+                (the 999px inset spread paints the fill without needing a
+                 background change in the component)
+   `concave` = input / code well                 -> hairline only
+   `soft`    = card, list row                    -> hairline only
+--------------------------------------------------------------------------- */
 :root {
-  --neu-bg: #E0E5EC;
-  /* Raised element (default) */
-  --neu-shadow-raised:
-    6px 6px 14px rgba(163, 177, 198, 0.6),
-    -6px -6px 14px rgba(255, 255, 255, 0.8);
-  /* Pressed/active element */
-  --neu-shadow-inset:
-    inset 4px 4px 10px rgba(163, 177, 198, 0.6),
-    inset -4px -4px 10px rgba(255, 255, 255, 0.8);
-  /* Concave container (code block, input) */
-  --neu-shadow-concave:
-    inset 6px 6px 12px rgba(163, 177, 198, 0.5),
-    inset -6px -6px 12px rgba(255, 255, 255, 0.9);
-  /* Subtle raised (panels, cards) */
-  --neu-shadow-soft:
-    4px 4px 10px rgba(163, 177, 198, 0.5),
-    -4px -4px 10px rgba(255, 255, 255, 0.7);
+  --neu-bg: var(--surface);
+  --neu-shadow-raised: inset 0 0 0 1px var(--border), var(--shadow-float);
+  --neu-shadow-inset: inset 0 0 0 1px var(--accent), inset 0 0 0 999px var(--accent-soft);
+  --neu-shadow-concave: inset 0 0 0 1px var(--border);
+  --neu-shadow-soft: inset 0 0 0 1px var(--border);
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--neu-bg);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
 }
 
 .neu-raised { box-shadow: var(--neu-shadow-raised); }
 .neu-inset  { box-shadow: var(--neu-shadow-inset); }
 .neu-concave{ box-shadow: var(--neu-shadow-concave); }
 .neu-soft   { box-shadow: var(--neu-shadow-soft); }
+
+/* Semantic helpers used by the few Tailwind-styled components
+   (ImportModal, PreviewPanel, Canvas empty state). */
+.surface     { background: var(--surface); }
+.surface-2   { background: var(--surface-2); }
+.hairline    { border-color: var(--border); }
+.text-1      { color: var(--text-1); }
+.text-2      { color: var(--text-2); }
+.text-3      { color: var(--text-3); }
+
+/* Focus: one consistent ring instead of Tailwind's blue. */
+:where(button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Thin, theme-aware scrollbars — the neumorphic build inherited the OS ones. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+}
+
+/* --- React Flow ------------------------------------------------------------
+   @xyflow/react ships its own light-only stylesheet; these override the parts
+   that would otherwise stay white in dark mode.
+--------------------------------------------------------------------------- */
+.react-flow {
+  --xy-background-color: var(--bg);
+  --xy-edge-stroke-default: var(--text-3);
+  --xy-edge-stroke-selected-default: var(--accent);
+  --xy-connectionline-stroke-default: var(--accent);
+  --xy-handle-background-color-default: var(--accent);
+  --xy-handle-border-color-default: var(--surface);
+  --xy-selection-background-color-default: var(--accent-soft);
+  --xy-selection-border-default: 1px dashed var(--accent);
+  --xy-attribution-background-color-default: transparent;
+}
+
+/* Higher specificity than @xyflow/react's own stylesheet, which is imported
+   after globals.css by components/Canvas.tsx. */
+.react-flow .react-flow__attribution,
+.react-flow .react-flow__attribution a {
+  background: transparent;
+  color: var(--text-3);
+}

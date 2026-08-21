@@ -111,7 +111,7 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
         style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(0,0,0,0.3)',
+          background: 'var(--scrim)',
           backdropFilter: 'blur(4px)',
           zIndex: 200,
           display: 'flex',
@@ -124,7 +124,7 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
           onClick={(e) => e.stopPropagation()}
           style={{
             background: NEU_BG,
-            borderRadius: 20,
+            borderRadius: 10,
             boxShadow: 'var(--neu-shadow-raised)',
             width: 540,
             maxHeight: '70vh',
@@ -140,10 +140,10 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
               alignItems: 'center',
               gap: 10,
               padding: '14px 18px',
-              borderBottom: '1px solid rgba(163,177,198,0.3)',
+              borderBottom: '1px solid var(--border)',
             }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
@@ -159,10 +159,10 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
                 border: 'none',
                 outline: 'none',
                 fontSize: 14,
-                color: '#374151',
+                color: 'var(--text-1)',
               }}
             />
-            <kbd style={{ fontSize: 11, color: '#9ca3af', background: NEU_BG, borderRadius: 6, padding: '2px 6px', boxShadow: 'var(--neu-shadow-raised)', fontFamily: 'monospace' }}>
+            <kbd style={{ fontSize: 11, color: 'var(--text-3)', background: NEU_BG, borderRadius: 6, padding: '2px 6px', boxShadow: 'var(--neu-shadow-raised)', fontFamily: 'monospace' }}>
               Esc
             </kbd>
           </div>
@@ -170,7 +170,7 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
           {/* Results */}
           <div style={{ overflowY: 'auto', padding: '8px 8px' }}>
             {filtered.length === 0 ? (
-              <div style={{ padding: '20px', textAlign: 'center', color: '#9ca3af', fontSize: 13 }}>
+              <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-3)', fontSize: 13 }}>
                 No commands found
               </div>
             ) : (
@@ -182,7 +182,7 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
                     width: '100%',
                     background: NEU_BG,
                     border: 'none',
-                    borderRadius: 12,
+                    borderRadius: 8,
                     boxShadow: idx === safeActiveIdx ? 'var(--neu-shadow-inset)' : 'none',
                     padding: '10px 14px',
                     display: 'flex',
@@ -196,13 +196,13 @@ export function CommandPalette({ onClose }: CommandPaletteProps) {
                   onMouseEnter={() => setActiveIdx(idx)}
 
                 >
-                  <span style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: idx === safeActiveIdx ? '#4F46E5' : '#6B7280' }}>
+                  <span style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: idx === safeActiveIdx ? 'var(--accent)' : 'var(--text-2)' }}>
                     {item.icon}
                   </span>
                   <span style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 500, color: idx === safeActiveIdx ? '#4F46E5' : '#374151' }}>{item.label}</div>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: idx === safeActiveIdx ? 'var(--accent)' : 'var(--text-1)' }}>{item.label}</div>
                     {item.description && (
-                      <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 1 }}>{item.description}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 1 }}>{item.description}</div>
                     )}
                   </span>
                 </button>

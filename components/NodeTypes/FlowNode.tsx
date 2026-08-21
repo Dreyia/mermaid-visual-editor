@@ -182,9 +182,13 @@ const IS_SVG_SHAPE = new Set<NodeShape>(Object.keys(SVG_RENDERERS) as NodeShape[
 
 // ─── Four-directional handles (shown on all shapes) ──────────────────────────
 function NodeHandles() {
+  // Handle colours come from theme tokens so they stay visible in dark mode
+  // (@xyflow's own stylesheet hardcodes a light-theme blue).
   const base = {
     zIndex: 30,
     pointerEvents: 'all',
+    background: 'var(--accent)',
+    borderColor: 'var(--surface)',
   } as const
 
   const topStyle = { ...base, top: 2 }
@@ -198,28 +202,28 @@ function NodeHandles() {
         id="top-target"
         type="target"
         position={Position.Top}
-        className="!bg-blue-300 hover:!bg-blue-500 !w-3 !h-3"
+        className="!w-2.5 !h-2.5 !border-2"
         style={topStyle}
       />
       <Handle
         id="left-target"
         type="target"
         position={Position.Left}
-        className="!bg-blue-300 hover:!bg-blue-500 !w-3 !h-3"
+        className="!w-2.5 !h-2.5 !border-2"
         style={leftStyle}
       />
       <Handle
         id="bottom-source"
         type="source"
         position={Position.Bottom}
-        className="!bg-blue-300 hover:!bg-blue-500 !w-3 !h-3"
+        className="!w-2.5 !h-2.5 !border-2"
         style={bottomStyle}
       />
       <Handle
         id="right-source"
         type="source"
         position={Position.Right}
-        className="!bg-blue-300 hover:!bg-blue-500 !w-3 !h-3"
+        className="!w-2.5 !h-2.5 !border-2"
         style={rightStyle}
       />
     </>
@@ -332,7 +336,7 @@ export function FlowNode({ id, data, selected }: NodeProps) {
         onDoubleClick={handleDoubleClick}
       >
         <NodeResizer minWidth={200} minHeight={120} isVisible={!!selected} />
-        <div className={`absolute top-2 left-3 text-xs font-semibold text-gray-500 ${editing ? '' : 'select-none pointer-events-none'}`}>
+        <div className={`absolute top-2 left-3 text-xs font-semibold text-2 ${editing ? '' : 'select-none pointer-events-none'}`}>
           <NodeLabel {...labelProps} color={textColor} />
         </div>
         <NodeHandles />
@@ -392,7 +396,7 @@ export function FlowNode({ id, data, selected }: NodeProps) {
 
   switch (shape) {
     case 'rounded':
-      extraStyle = { borderRadius: 12 }
+      extraStyle = { borderRadius: 8 }
       break
     case 'stadium':
       extraStyle = { borderRadius: 9999, paddingLeft: 20, paddingRight: 20 }

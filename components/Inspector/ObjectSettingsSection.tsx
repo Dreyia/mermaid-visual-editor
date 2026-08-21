@@ -26,12 +26,12 @@ function NeuBtn({
       style={{
         background: NEU_BG,
         border: 'none',
-        borderRadius: 8,
+        borderRadius: 6,
         boxShadow: active ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
         padding: '5px 10px',
         fontSize: 11,
         fontWeight: 500,
-        color: active ? '#4F46E5' : '#6B7280',
+        color: active ? 'var(--accent)' : 'var(--text-2)',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.4 : 1,
         transition: 'box-shadow 0.15s',
@@ -96,7 +96,7 @@ function ColorSwatch({
           aria-label={label}
         />
       </div>
-      <span style={{ fontSize: 9, color: '#9ca3af', letterSpacing: '0.04em' }}>{label}</span>
+      <span style={{ fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.04em' }}>{label}</span>
     </label>
   )
 }
@@ -122,7 +122,7 @@ export function ObjectSettingsSection() {
   const sectionLabelStyle: React.CSSProperties = {
     fontSize: 11,
     fontWeight: 700,
-    color: '#9ca3af',
+    color: 'var(--text-3)',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     marginBottom: 10,
@@ -135,7 +135,7 @@ export function ObjectSettingsSection() {
         <div
           style={{
             background: NEU_BG,
-            borderRadius: 14,
+            borderRadius: 8,
             boxShadow: 'var(--neu-shadow-concave)',
             padding: '24px 16px',
             display: 'flex',
@@ -145,7 +145,7 @@ export function ObjectSettingsSection() {
           }}
         >
           <div style={{ fontSize: 24, opacity: 0.3 }}>◻</div>
-          <div style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', lineHeight: 1.5 }}>
+          <div style={{ fontSize: 12, color: 'var(--text-3)', textAlign: 'center', lineHeight: 1.5 }}>
             Select a node or edge to edit its properties
           </div>
         </div>
@@ -162,13 +162,13 @@ export function ObjectSettingsSection() {
         <div
           style={{
             background: NEU_BG,
-            borderRadius: 14,
+            borderRadius: 8,
             boxShadow: 'var(--neu-shadow-concave)',
             padding: '14px',
             marginBottom: hasEdgeSelection ? 10 : 0,
           }}
         >
-          <div style={{ fontSize: 11, fontWeight: 600, color: '#374151', marginBottom: 12 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-1)', marginBottom: 12 }}>
             {selectedNodes.length === 1 ? '1 node selected' : `${selectedNodes.length} nodes selected`}
           </div>
 
@@ -212,17 +212,17 @@ export function ObjectSettingsSection() {
         <div
           style={{
             background: NEU_BG,
-            borderRadius: 14,
+            borderRadius: 8,
             boxShadow: 'var(--neu-shadow-concave)',
             padding: '14px',
           }}
         >
-          <div style={{ fontSize: 11, fontWeight: 600, color: '#374151', marginBottom: 12 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-1)', marginBottom: 12 }}>
             {selectedEdges.length === 1 ? '1 edge selected' : `${selectedEdges.length} edges selected`}
           </div>
 
           {/* Edge style */}
-          <div style={{ fontSize: 10, color: '#9ca3af', marginBottom: 6 }}>Line style</div>
+          <div style={{ fontSize: 10, color: 'var(--text-3)', marginBottom: 6 }}>Line style</div>
           <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
             {(['solid', 'dashed', 'thick'] as EdgeStyle[]).map((style) => (
               <NeuBtn
@@ -237,7 +237,7 @@ export function ObjectSettingsSection() {
           </div>
 
           {/* Arrow type */}
-          <div style={{ fontSize: 10, color: '#9ca3af', marginBottom: 6 }}>Arrow</div>
+          <div style={{ fontSize: 10, color: 'var(--text-3)', marginBottom: 6 }}>Arrow</div>
           <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
             {(
               [
@@ -260,7 +260,7 @@ export function ObjectSettingsSection() {
           </div>
 
           {/* Edge color */}
-          <div style={{ fontSize: 10, color: '#9ca3af', marginBottom: 8 }}>Color</div>
+          <div style={{ fontSize: 10, color: 'var(--text-3)', marginBottom: 8 }}>Color</div>
           <ColorSwatch
             key={selectedEdges.map(e => e.id).join('-')}
             value={(selectedEdges[0].data as FlowEdgeData | undefined)?.strokeColor}

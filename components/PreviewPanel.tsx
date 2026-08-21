@@ -48,17 +48,17 @@ export function PreviewPanel({ syntax }: PreviewPanelProps) {
   }, [syntax])
 
   return (
-    <div className="w-full h-full flex flex-col bg-white">
-      <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/80 backdrop-blur-md flex items-center justify-between">
-        <span className="text-sm font-semibold text-gray-700">Mermaid Preview</span>
+    <div className="w-full h-full flex flex-col" style={{ background: 'var(--surface)' }}>
+      <div className="px-4 py-3 border-b backdrop-blur-md flex items-center justify-between" style={{ borderColor: 'var(--border)', background: 'var(--surface-2)' }}>
+        <span className="text-sm font-semibold" style={{ color: 'var(--text-1)' }}>Mermaid Preview</span>
         {error && (
-          <span className="text-xs font-medium text-red-500 bg-red-50 px-2 py-0.5 rounded-full">Syntax error</span>
+          <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ color: 'var(--danger)', background: 'var(--accent-soft)' }}>Syntax error</span>
         )}
       </div>
 
-      <div className="flex-1 overflow-auto p-4 bg-white">
+      <div className="flex-1 overflow-auto p-4" style={{ background: 'var(--paper)' }}>
         {error ? (
-          <div className="text-xs text-red-400 font-mono whitespace-pre-wrap bg-red-50 p-3 rounded">
+          <div className="text-xs font-mono whitespace-pre-wrap p-3 rounded" style={{ color: 'var(--danger)', background: 'var(--surface-2)' }}>
             {error}
           </div>
         ) : (
@@ -67,8 +67,8 @@ export function PreviewPanel({ syntax }: PreviewPanelProps) {
       </div>
 
       {/* Syntax display */}
-      <div className="border-t border-gray-200 bg-gray-900 p-3">
-        <pre className="text-xs text-green-400 font-mono overflow-auto max-h-40 whitespace-pre">
+      <div className="border-t p-3" style={{ borderColor: 'var(--border)', background: 'var(--code-bg)' }}>
+        <pre className="text-xs font-mono overflow-auto max-h-40 whitespace-pre" style={{ color: 'var(--code-fg)' }}>
           {syntax}
         </pre>
       </div>

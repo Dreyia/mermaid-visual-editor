@@ -25,11 +25,11 @@ function EditorContent() {
         width: '100vw',
         overflow: 'hidden',
         display: 'flex',
-        background: 'var(--neu-bg)',
+        background: 'var(--bg)',
       }}
     >
       {/* Canvas zone */}
-      <div style={{ position: 'relative', flex: 1, background: 'var(--neu-bg)' }}>
+      <div style={{ position: 'relative', flex: 1, background: 'var(--bg)' }}>
         <Canvas onOpenPalette={() => setPaletteOpen(true)} />
 
         {/* Top overlay — toolbar */}

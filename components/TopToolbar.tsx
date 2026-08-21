@@ -40,7 +40,7 @@ function NeuIconBtn({
       style={{
         background: NEU_BG,
         border: 'none',
-        borderRadius: 12,
+        borderRadius: 8,
         boxShadow: active ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
         width: 36,
         height: 36,
@@ -49,7 +49,7 @@ function NeuIconBtn({
         justifyContent: 'center',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.4 : 1,
-        color: active ? '#4F46E5' : '#6B7280',
+        color: active ? 'var(--accent)' : 'var(--text-2)',
         fontSize: 16,
         transition: 'box-shadow 0.15s, color 0.15s',
         flexShrink: 0,
@@ -62,7 +62,7 @@ function NeuIconBtn({
 
 function Divider() {
   return (
-    <div style={{ width: 1, height: 20, background: 'rgba(163,177,198,0.4)', margin: '0 4px', flexShrink: 0 }} />
+    <div style={{ width: 1, height: 20, background: 'var(--border)', margin: '0 4px', flexShrink: 0 }} />
   )
 }
 
@@ -138,7 +138,7 @@ export function TopToolbar({ inspectorOpen, onToggleInspector, onOpenPalette, sy
       <div
         style={{
           background: NEU_BG,
-          borderRadius: 50,
+          borderRadius: 999,
           boxShadow: 'var(--neu-shadow-raised)',
           padding: '8px 16px',
           display: 'flex',
@@ -214,15 +214,15 @@ export function TopToolbar({ inspectorOpen, onToggleInspector, onOpenPalette, sy
             top: 'calc(100% + 8px)',
             left: '50%',
             transform: 'translateX(-50%)',
-            background: '#4F46E5',
-            color: 'white',
+            background: 'var(--accent)',
+            color: 'var(--accent-contrast)',
             fontSize: 11,
             fontWeight: 500,
             padding: '5px 12px',
-            borderRadius: 50,
+            borderRadius: 999,
             pointerEvents: 'none',
             whiteSpace: 'nowrap',
-            boxShadow: '0 4px 12px rgba(79,70,229,0.4)',
+            boxShadow: '0 2px 10px var(--accent-soft)',
           }}
         >
           Drawing: {drawingShape} — click &amp; drag on canvas — Esc to cancel

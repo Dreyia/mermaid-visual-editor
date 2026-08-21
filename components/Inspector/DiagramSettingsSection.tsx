@@ -25,12 +25,12 @@ function NeuBtn({
       style={{
         background: NEU_BG,
         border: 'none',
-        borderRadius: 8,
+        borderRadius: 6,
         boxShadow: active ? 'var(--neu-shadow-inset)' : 'var(--neu-shadow-raised)',
         padding: '5px 10px',
         fontSize: 11,
         fontWeight: 500,
-        color: active ? '#4F46E5' : '#6B7280',
+        color: active ? 'var(--accent)' : 'var(--text-2)',
         cursor: 'pointer',
         transition: 'box-shadow 0.15s',
       }}
@@ -43,7 +43,7 @@ function NeuBtn({
 const sectionLabelStyle: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
-  color: '#9ca3af',
+  color: 'var(--text-3)',
   letterSpacing: '0.08em',
   textTransform: 'uppercase',
   marginBottom: 10,
@@ -51,7 +51,7 @@ const sectionLabelStyle: React.CSSProperties = {
 
 const subLabelStyle: React.CSSProperties = {
   fontSize: 10,
-  color: '#9ca3af',
+  color: 'var(--text-3)',
   marginBottom: 6,
 }
 
@@ -59,10 +59,10 @@ const selectStyle: React.CSSProperties = {
   background: NEU_BG,
   boxShadow: 'var(--neu-shadow-concave)',
   border: 'none',
-  borderRadius: 8,
+  borderRadius: 6,
   padding: '5px 8px',
   fontSize: 11,
-  color: '#374151',
+  color: 'var(--text-1)',
   outline: 'none',
   cursor: 'pointer',
   width: '100%',
@@ -97,7 +97,7 @@ export function DiagramSettingsSection() {
       <div
         style={{
           background: NEU_BG,
-          borderRadius: 14,
+          borderRadius: 8,
           boxShadow: 'var(--neu-shadow-concave)',
           padding: '14px',
         }}

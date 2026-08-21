@@ -61,7 +61,7 @@ function AccordionSection({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '10px 0 8px',
-          color: '#374151',
+          color: 'var(--text-1)',
           fontSize: 12,
           fontWeight: 600,
           letterSpacing: '0.05em',
@@ -69,9 +69,9 @@ function AccordionSection({
         }}
       >
         <span>{title}</span>
-        <span style={{ fontSize: 10, color: '#9ca3af', transition: 'transform 0.15s', display: 'inline-block', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}>▾</span>
+        <span style={{ fontSize: 10, color: 'var(--text-3)', transition: 'transform 0.15s', display: 'inline-block', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}>▾</span>
       </button>
-      <div style={{ height: 1, background: 'rgba(163,177,198,0.35)', marginBottom: open ? 10 : 0 }} />
+      <div style={{ height: 1, background: 'var(--border)', marginBottom: open ? 10 : 0 }} />
       {open && <div style={{ paddingBottom: 8 }}>{children}</div>}
     </div>
   )
@@ -112,7 +112,7 @@ export function InspectorPanel({ syntax, onCollapse }: InspectorPanelProps) {
           flexShrink: 0,
         }}
       >
-        <span style={{ fontSize: 14, fontWeight: 700, color: '#374151', letterSpacing: '-0.01em' }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)', letterSpacing: '-0.01em' }}>
           Inspector
         </span>
 
@@ -126,7 +126,7 @@ export function InspectorPanel({ syntax, onCollapse }: InspectorPanelProps) {
             style={{
               background: NEU_BG,
               border: 'none',
-              borderRadius: 10,
+              borderRadius: 6,
               boxShadow: 'var(--neu-shadow-raised)',
               height: 28,
               padding: '0 10px',
@@ -135,7 +135,7 @@ export function InspectorPanel({ syntax, onCollapse }: InspectorPanelProps) {
               gap: 5,
               cursor: nodesLength === 0 ? 'not-allowed' : 'pointer',
               opacity: nodesLength === 0 ? 0.4 : 1,
-              color: '#6B7280',
+              color: 'var(--text-2)',
               fontSize: 11,
               fontWeight: 500,
               transition: 'box-shadow 0.15s',
@@ -154,7 +154,7 @@ export function InspectorPanel({ syntax, onCollapse }: InspectorPanelProps) {
           style={{
             background: NEU_BG,
             border: 'none',
-            borderRadius: 10,
+            borderRadius: 6,
             boxShadow: 'var(--neu-shadow-raised)',
             width: 28,
             height: 28,
@@ -162,7 +162,7 @@ export function InspectorPanel({ syntax, onCollapse }: InspectorPanelProps) {
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: '#9ca3af',
+            color: 'var(--text-3)',
             fontSize: 14,
             transition: 'box-shadow 0.15s',
           }}

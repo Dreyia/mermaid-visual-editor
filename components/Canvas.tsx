@@ -276,25 +276,25 @@ function CanvasInner({ onOpenPalette }: CanvasInnerProps) {
         selectionOnDrag={!drawingShape}
         multiSelectionKeyCode={['Shift', 'Control']}
         nodesDraggable={!drawingShape}
-        style={{ background: 'var(--neu-bg)' }}
+        style={{ background: 'var(--bg)' }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={2} color="#d1d9e6" />
+        <Background variant={BackgroundVariant.Dots} gap={24} size={2} color="var(--dot)" />
       </ReactFlow>
 
       {relativePreview && relativePreview.width > 4 && relativePreview.height > 4 && (
         <div
-          className="absolute pointer-events-none border-2 border-dashed border-blue-500 bg-blue-50/30 rounded"
-          style={relativePreview}
+          className="absolute pointer-events-none border border-dashed rounded"
+          style={{ ...relativePreview, borderColor: 'var(--accent)', background: 'var(--accent-soft)' }}
         />
       )}
 
       {nodes.length === 0 && !drawingShape && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-center text-gray-400">
+          <div className="text-center" style={{ color: 'var(--text-3)' }}>
             <p className="text-lg font-medium">Canvas is empty</p>
             <p className="text-sm mt-1">
                 Select a shape above and drag to draw, double-click canvas, or press{' '}
-              <kbd className="px-1 py-0.5 rounded bg-gray-100 text-gray-500 text-xs font-mono">N</kbd>{' '}
+              <kbd className="px-1 py-0.5 rounded text-xs font-mono" style={{ background: 'var(--surface-2)', color: 'var(--text-2)', boxShadow: 'inset 0 0 0 1px var(--border)' }}>N</kbd>{' '}
               to add a node. Drag on empty canvas to select multiple nodes.
             </p>
           </div>
