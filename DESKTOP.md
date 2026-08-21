@@ -101,16 +101,65 @@ matching the exported file.
 28. Resize below 960x640 -> the window stops shrinking.
 29. View -> Toggle Developer Tools -> console shows no errors.
 
+### F2. Keyboard ownership (the bugs fixed in this fork)
+30. Settings → **Import .mmd** → click in the textarea → **Ctrl+V**. Clipboard text
+    lands in the box (previously nothing happened).
+31. Type something in that box, press **Ctrl+Z** → the *typing* is undone, not the diagram.
+32. Press **Escape** → the import dialog closes. Escape again → the settings popover closes.
+33. **Ctrl+K** while the caret is in a text field → nothing happens. Click empty canvas,
+    **Ctrl+K** again → the command palette opens; Escape closes it.
+34. Double-click an empty patch of canvas → a node appears there.
+35. Import `flowchart TD` + `A["a"] --> |"yes"| B["b"]` (note the space before the pipe)
+    → the status line reads *2 nodes, 1 edge*, and both nodes plus the edge land on the canvas.
+
 ### G. Packaging
-30. Run the installer, pick a directory, finish.
-31. Desktop and Start Menu shortcuts exist and carry the flowchart icon.
-32. Launch from the shortcut -> same behaviour as steps A-F.
-33. Uninstall via Settings -> Apps -> the app is removed.
+36. Run the installer, pick a directory, finish.
+37. Desktop and Start Menu shortcuts exist and carry the flowchart icon.
+38. Launch from the shortcut -> same behaviour as steps A-F2.
+39. Uninstall via Settings -> Apps -> the app is removed.
+
+## Upstream bugs fixed here
+
+All five predate this fork and affect the web app too. Each was reproduced with a
+scripted browser before and after the change.
+
+| Bug | Cause |
+|---|---|
+| **Escape closed nothing** — settings popover, shape picker, command palette, expanded preview, import dialog | `Canvas.tsx` cleared its draw-mode state on *every* Escape, even when nothing was being drawn. keydown is a discrete event, so React flushed that re-render synchronously **during dispatch**, which unregistered and re-registered every window `keydown` listener belonging to a component further down the tree. Per the DOM spec a listener added mid-dispatch is skipped for that event, so every other Escape handler was silently passed over. Now the state is only written when there is something to cancel. |
+| **Ctrl+V did nothing in a text field** — reported as "can't paste into the import box" | `Canvas.tsx` computed `isTyping` but only applied it to the `N` shortcut. `Ctrl+V/C/Z/Y/D/K` all ran `preventDefault()` unconditionally, so in any input the canvas stole paste, copy, undo, redo, duplicate and the command palette. Now every shortcut below Escape bails out when the caret is in an `input`, `textarea` or `contenteditable`. |
+| **Import .mmd closed on any click inside it** | `ImportModal` is a *sibling* of the settings popover, so clicks in it counted as "outside" and tore the popover down, unmounting the modal. The Escape handler already guarded on `importOpen`; the mousedown one now does too. |
+| **Double-click on empty canvas added nothing**, despite the empty-state text saying it would | React Flow binds d3-zoom's double-click-to-zoom, which calls `stopImmediatePropagation()`. Set `zoomOnDoubleClick={false}`. |
+| **`A --> |label| B` silently dropped the edge** and any node introduced on its right-hand side | The parser's label regex required the pipe to touch the arrow. Mermaid itself accepts a space there, so importing valid `.mmd` lost data with no warning. |
+
+Shortcut key comparisons are also case-insensitive now, so they still work with Caps
+Lock on.
+
+---
+
+## Automated audit
+
+`tests/ui-audit.mjs` drives the built export in a real browser and asserts 64 things
+across keyboard ownership, Escape handling, import/parse round-trips, edge creation,
+the inspector, theming, the command palette and file I/O.
+
+```bash
+pnpm build
+npx serve out -l 8899
+node tests/ui-audit.mjs            # exits non-zero on any failure
+```
+
+It needs Playwright (`pnpm dlx playwright install chromium` once) but is deliberately
+not a project dependency — it is a maintenance tool, not part of the build. `BASE=`
+and `CHROMIUM=` override the URL and browser binary.
+
+---
 
 ## Known / not addressed
 
 - The Inspector renders section titles twice ("OBJECT SETTINGS" / "DIAGRAM SETTINGS"
   as both the collapsible header and an inner heading). Pre-existing upstream, left alone.
+- Two different controls are labelled "Dark" (the app appearance toggle and the Mermaid
+  diagram theme dropdown), which is confusing in a narrow inspector.
 - The exes are unsigned; signing needs a code-signing certificate.
 - `next.config.ts` `headers()` does not apply to a static export. `electron/main.js`
   sets `x-content-type-options` and `referrer-policy` on the `app://` responses instead.
