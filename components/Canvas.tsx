@@ -41,18 +41,33 @@ function CanvasInner({ onOpenPalette }: CanvasInnerProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement
-      const isTyping = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA'
+      const isTyping =
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
 
-      // Escape → cancel draw mode
+      // Escape → cancel draw mode.
+      // Only write state when there is actually something to cancel. A keydown is a
+      // discrete event, so a setState here is flushed synchronously *during* dispatch;
+      // that re-render tears down and re-registers every window keydown listener
+      // belonging to a component further down the tree, and the DOM spec says a
+      // listener added while an event is being dispatched is skipped for that event.
+      // Unconditionally clearing these therefore swallowed Escape for every popover,
+      // modal and inline editor in the app.
       if (e.key === 'Escape') {
-        setDrawingShape(null)
-        setDragStart(null)
-        setDragCurrent(null)
+        if (drawingShape) setDrawingShape(null)
+        if (dragStart) setDragStart(null)
+        if (dragCurrent) setDragCurrent(null)
         return
       }
 
-      // N → add node (when not typing)
-      if (!isTyping && (e.key === 'n' || e.key === 'N')) {
+      // Everything below is a canvas shortcut. While the caret is in a text field the
+      // field owns the keyboard - otherwise Ctrl+V pastes nodes instead of text,
+      // Ctrl+Z undoes the diagram instead of the typing, and so on.
+      if (isTyping) return
+
+      // N → add node
+      if (e.key === 'n' || e.key === 'N') {
         addNode()
         return
       }
@@ -60,42 +75,42 @@ function CanvasInner({ onOpenPalette }: CanvasInnerProps) {
       const ctrl = e.ctrlKey || e.metaKey
 
       // Ctrl+Z → undo
-      if (ctrl && !e.shiftKey && e.key === 'z') {
+      if (ctrl && !e.shiftKey && e.key.toLowerCase() === 'z') {
         e.preventDefault()
         undo()
         return
       }
 
       // Ctrl+Shift+Z or Ctrl+Y → redo
-      if ((ctrl && e.shiftKey && e.key === 'z') || (ctrl && e.key === 'y')) {
+      if ((ctrl && e.shiftKey && e.key.toLowerCase() === 'z') || (ctrl && e.key.toLowerCase() === 'y')) {
         e.preventDefault()
         redo()
         return
       }
 
       // Ctrl+D → duplicate selected
-      if (ctrl && e.key === 'd') {
+      if (ctrl && e.key.toLowerCase() === 'd') {
         e.preventDefault()
         duplicateSelected()
         return
       }
 
       // Ctrl+C → copy selected
-      if (ctrl && !e.shiftKey && e.key === 'c') {
+      if (ctrl && !e.shiftKey && e.key.toLowerCase() === 'c') {
         e.preventDefault()
         copySelected()
         return
       }
 
       // Ctrl+V → paste clipboard
-      if (ctrl && !e.shiftKey && e.key === 'v') {
+      if (ctrl && !e.shiftKey && e.key.toLowerCase() === 'v') {
         e.preventDefault()
         pasteClipboard()
         return
       }
 
       // Ctrl+K / Meta+K → open command palette
-      if (ctrl && e.key === 'k') {
+      if (ctrl && e.key.toLowerCase() === 'k') {
         e.preventDefault()
         onOpenPalette?.()
         return
@@ -103,7 +118,7 @@ function CanvasInner({ onOpenPalette }: CanvasInnerProps) {
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [addNode, undo, redo, duplicateSelected, copySelected, pasteClipboard, setDrawingShape, onOpenPalette])
+  }, [addNode, undo, redo, duplicateSelected, copySelected, pasteClipboard, setDrawingShape, onOpenPalette, drawingShape, dragStart, dragCurrent])
 
   // ── Double-click on blank canvas → add node at cursor ─────────────────────
   const handleDoubleClick = (e: MouseEvent) => {
@@ -271,6 +286,10 @@ function CanvasInner({ onOpenPalette }: CanvasInnerProps) {
         onConnect={onConnect}
         onNodeDragStop={handleNodeDragStop}
         fitView
+        // React Flow binds d3-zoom's double-click-to-zoom, which calls
+        // stopImmediatePropagation() on dblclick - that swallowed the event before
+        // handleDoubleClick (double-click empty canvas to add a node) ever saw it.
+        zoomOnDoubleClick={false}
         deleteKeyCode={['Backspace', 'Delete']}
         panOnDrag={drawingShape ? false : [1, 2]}
         selectionOnDrag={!drawingShape}
