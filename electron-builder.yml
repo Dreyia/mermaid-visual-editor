@@ -1,0 +1,44 @@
+# electron-builder config for the desktop wrapper.
+# Docs: https://www.electron.build/configuration/configuration
+appId: com.saketkattu.mermaid-visual-editor
+productName: Mermaid Visual Editor
+copyright: Copyright (c) Saket Kattuboina (MIT)
+
+directories:
+  output: dist
+  buildResources: build
+
+# The Next.js static export in out/ already contains every runtime dependency
+# (react, mermaid, @xyflow/react ...) bundled by the Next build, so node_modules
+# is deliberately excluded - the main process only uses electron + node core.
+files:
+  - electron/**/*
+  - out/**/*
+  - package.json
+  - '!node_modules'
+  - '!.next'
+  - '!dist'
+
+asar: true
+npmRebuild: false
+nodeGypRebuild: false
+
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Mermaid Visual Editor
+  artifactName: MermaidVisualEditor-${version}-setup.${ext}
+
+portable:
+  artifactName: MermaidVisualEditor-${version}-portable.${ext}

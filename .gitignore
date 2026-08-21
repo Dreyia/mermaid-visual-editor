@@ -7,7 +7,10 @@ node_modules/
 out/
 
 # Production build
-build/
+# build/ holds the electron-builder buildResources dir. icon.ico is an INPUT,
+# not an output, so it is kept; anything else generated there is ignored.
+build/*
+!build/icon.ico
 dist/
 
 # Environment

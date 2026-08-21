@@ -2,7 +2,7 @@
   "name": "mermaid-visual-editor",
   "version": "0.1.0",
   "private": false,
-  "description": "Visual drag-and-drop editor for Mermaid.js diagrams. Build flowcharts visually — export clean .mmd syntax.",
+  "description": "Visual drag-and-drop editor for Mermaid.js diagrams. Build flowcharts visually \u2014 export clean .mmd syntax.",
   "keywords": [
     "mermaid",
     "diagram",
@@ -17,10 +17,10 @@
   "homepage": "https://mermaid-visual-editor-delta.vercel.app/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saketkattu/mermaid-visual-editor.git"
+    "url": "git+https://github.com/Dreyia/mermaid-visual-editor.git"
   },
   "bugs": {
-    "url": "https://github.com/saketkattu/mermaid-visual-editor/issues"
+    "url": "https://github.com/Dreyia/mermaid-visual-editor/issues"
   },
   "engines": {
     "node": ">=18"
@@ -38,7 +38,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "node bin/cli.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "desktop": "next build && electron .",
+    "desktop:run": "electron .",
+    "dist": "next build && electron-builder --win",
+    "dist:dir": "next build && electron-builder --win --dir"
   },
   "dependencies": {
     "@dagrejs/dagre": "^2.0.4",
@@ -56,9 +60,15 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "electron": "^43.4.1",
+    "electron-builder": "^26.15.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "main": "electron/main.js",
+  "contributors": [
+    "Andreas (https://github.com/Dreyia)"
+  ]
 }

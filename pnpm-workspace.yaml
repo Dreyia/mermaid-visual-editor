@@ -1,3 +1,15 @@
+allowBuilds:
+  electron-winstaller: set this to true or false
+  sharp: set this to true or false
+  unrs-resolver: set this to true or false
+
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+
+# electron's postinstall downloads the prebuilt Chromium binary; it must be
+# allowed to run or `electron .` fails with "Electron failed to install".
+onlyBuiltDependencies:
+  - electron
+  - electron-builder
+  - esbuild
